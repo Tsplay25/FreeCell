@@ -57,12 +57,9 @@ int movValido(tCarta *tempo, tCarta *mesa){
 }
 
 bool naipeValido(tCarta *mesa, tCarta *naipe){
-    int indice;
-    indice = (mesa->naipe) - 3;
-
     if(naipe==NULL && mesa->numero == 1){
         return true;
-    }else if(naipe->numero == mesa->numero - 1){
+    }else if(naipe!=NULL && naipe->numero == mesa->numero - 1){
         return true;
     }else{
         return false;
