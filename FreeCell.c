@@ -26,9 +26,8 @@ void bold(int status) {
 
 bool findVal(int *array, int size, int value) {
     for (int i = 0; i < size; ++i) {
-        if (array[i] == value) {
+        if (array[i] == value) 
             return true;
-        }
     }
     return false;
 }
@@ -36,35 +35,32 @@ bool findVal(int *array, int size, int value) {
 void generateRandom(int array[], int length) {
     int temp;
 
-    for (int i = 0; i < length; ++i) {
+    for (int i = 0; i < length; ++i){
         temp = rand() % 52;
-        if (findVal(array, i, temp)) {
+        if (findVal(array, i, temp)){
             i--;
             continue;
-        } else {
+        }else 
             array[i] = temp;
-        }
     }
 }
 
 int movValido(tCarta *tempo, tCarta *mesa){
-    if(mesa==NULL){
+    if(mesa==NULL)
         return 1;
-    }else if(tempo->numero == mesa->numero-1 && ((tempo->naipe <=4 && mesa->naipe >=5) || (tempo->naipe >=5 && mesa->naipe <=4))){
+    else if(tempo->numero == mesa->numero-1 && ((tempo->naipe <=4 && mesa->naipe >=5) || (tempo->naipe >=5 && mesa->naipe <=4)))
         return 2;
-    }else{
+    else
         return 3;
-    }
 }
 
 bool naipeValido(tCarta *mesa, tCarta *naipe){
-    if(naipe==NULL && mesa->numero == 1){
+    if(naipe==NULL && mesa->numero == 1)
         return true;
-    }else if(naipe!=NULL && naipe->numero == mesa->numero - 1){
+    else if(naipe!=NULL && naipe->numero == mesa->numero - 1)
         return true;
-    }else{
+    else
         return false;
-    }
 }
 
 bool blocoValido(tCarta *mesaOri, tCarta *mesaDest){
@@ -73,19 +69,17 @@ bool blocoValido(tCarta *mesaOri, tCarta *mesaDest){
 
     // sequencia do bloco valida
     while(atual->prox!=NULL){
-        if(((atual->naipe<=4 && atual->prox->naipe>=5) || (atual->naipe>=5 && atual->prox->naipe<=4)) && (atual->prox->numero==((atual->numero)-1))){
+        if(((atual->naipe<=4 && atual->prox->naipe>=5) || (atual->naipe>=5 && atual->prox->naipe<=4)) && (atual->prox->numero==((atual->numero)-1)))
             atual = atual->prox;
-        }else{
+        else
             return false;
-        }
     }
     
     // compara com a mesa de destino
-    if(mesaDest==NULL || ((mesaDest->numero == ((aux->numero)+1)) && ((aux->naipe<=4 && mesaDest->naipe>=5) || (aux->naipe>=5 && mesaDest->naipe<=4)))){
+    if(mesaDest==NULL || ((mesaDest->numero == ((aux->numero)+1)) && ((aux->naipe<=4 && mesaDest->naipe>=5) || (aux->naipe>=5 && mesaDest->naipe<=4))))
         return true;
-    }else{
+    else
         return false;
-    }
 }
 
 void gerarBaralho(){
@@ -109,7 +103,6 @@ void gerarBaralho(){
             }
         }
     }
-    
 }
 
 void embaralhaBaralho(){
@@ -122,9 +115,9 @@ void embaralhaBaralho(){
         pNum = atual->numero;
         pNaipe = atual->naipe;
         
-        for (int i = 0; i < random[cont]; i++){
+        for (int i = 0; i < random[cont]; i++)
             atual = atual->prox;
-        }
+
         aux->numero = atual->numero;
         aux->naipe = atual->naipe;
         atual->numero = pNum;
@@ -135,11 +128,12 @@ void embaralhaBaralho(){
 }
 
 void distribuiMesa(){
-    tCarta *atual, *aux, *auxUlt;
+    tCarta *atual, *aux;
 
     atual = primMonte;
     for (int i = 0; i < 8; i++){
         if(i<4){
+
             for (int j = 0; j < 7; j++){
                 if(j==0){
                     primMesa[i] = atual;
@@ -152,7 +146,9 @@ void distribuiMesa(){
             }
             atual=atual->prox;
             ult[i] = aux;
+
         }else if(i>=4){
+
             for (int j = 0; j < 6; j++){
                 if(j==0){
                     primMesa[i] = atual;
@@ -168,14 +164,12 @@ void distribuiMesa(){
         }
     }
 
-    for (int k = 0; k < 8; k++){
+    for (int k = 0; k < 8; k++)
         ult[k]->prox = NULL;
-    }
 }
 
 void imprime(){
     tCarta *atual, *atual2, *atual3;
-    int i=1;
 
     //naipe
     for (int i = 0; i < 4; i++){
@@ -192,7 +186,6 @@ void imprime(){
             atual3 = atual3->prox;
         }
         printf("\n");
-
     }
     printf("\n");
 
@@ -202,9 +195,9 @@ void imprime(){
     bold(0);
     for(int i=0;i<4;i++){
         atual = temp[i];
-        if(temp[i]==NULL){
+        if(temp[i]==NULL)
             printf("%d - [    ]\n", i);
-        }else{
+        else{
             if(atual->naipe<=4){
                 printf("%d - ", i);
                 printf(ANSI_COLOR_RED "[%2d|%c]\n" ANSI_COLOR_RESET, atual->numero, atual->naipe);
@@ -214,6 +207,7 @@ void imprime(){
         }
     }
     printf("\n");
+    
     //mesa
     for(int i=0;i<8;i++){
         atual2 = primMesa[i];
@@ -240,9 +234,8 @@ void moveMesaTemp(){
         if(dispo[i]==1){
             pos = i;
             i++;
-        }else{
+        }else
             i++;
-        }
     }
     if(pos!=4){
 
@@ -254,7 +247,7 @@ void moveMesaTemp(){
             printf("Mesa inexistente ou vazia, escolha outra mesa!\n");
             bold(0);
             system("pause");
-            return 0;
+            return;
         }
 
         temp[pos] = ult[mesaEsc];
@@ -285,20 +278,20 @@ void moveTempMesa(){
 
     printf("Escolha a posicao do temporario: ");
     scanf("%d", &tempEsc);
-
     if((temp[tempEsc]==NULL) || (tempEsc < 0 || tempEsc > 3)){
         system("cls");
         printf("Posicao vazia ou invalida, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
+
     printf("Escolha a mesa de destino: ");
     scanf("%d", &mesaEsc);
     if(mesaEsc<0 || mesaEsc>7){
         system("cls");
         printf("Posicao invalida, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
 
     op = movValido(temp[tempEsc], ult[mesaEsc]);
@@ -337,17 +330,16 @@ void moveMesaNaipe(){
         system("cls");
         printf("Posicao invalida ou vazia, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
     indice = ult[mesaEsc]->naipe - 3;
 
-    if(primNaipe[indice]==NULL){
+    if(primNaipe[indice]==NULL)
         atual = primNaipe[indice];
-    }else{
+    else{
         atual = primNaipe[indice];
-        while(atual->prox!=NULL){
+        while(atual->prox!=NULL)
             atual = atual->prox;
-        }     
     }
 
     if(naipeValido(ult[mesaEsc], atual)){
@@ -360,15 +352,16 @@ void moveMesaNaipe(){
             atual->prox = NULL;
         }
         qMesa[mesaEsc]--;
+
         //atualiza o ultimo da mesa
         if(primMesa[mesaEsc]->prox == NULL){
             primMesa[mesaEsc] = NULL;
             ult[mesaEsc] = NULL;
         }else{
             atual = primMesa[mesaEsc];
-            while(atual->prox!=ult[mesaEsc]){
+            while(atual->prox!=ult[mesaEsc])
                 atual = atual->prox;
-            }
+            
             ult[mesaEsc] = atual;
             ult[mesaEsc]->prox = NULL;
         }
@@ -380,7 +373,7 @@ void moveMesaNaipe(){
 }
 
 void moveTempNaipe() {
-    int tempEsc, op, indice;
+    int tempEsc, indice;
     tCarta *atual;
 
     printf("Escolha a posicao do temporario: ");
@@ -390,18 +383,17 @@ void moveTempNaipe() {
         system("cls");
         printf("Posicao vazia ou invalida, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
 
     indice = temp[tempEsc]->naipe - 3;
 
-    if(primNaipe[indice]==NULL){
+    if(primNaipe[indice]==NULL)
         atual = primNaipe[indice];
-    }else{
+    else{
         atual = primNaipe[indice];
-        while(atual->prox!=NULL){
+        while(atual->prox!=NULL)
             atual = atual->prox;
-        }     
     }
 
     if(naipeValido(temp[tempEsc], atual)){
@@ -435,7 +427,7 @@ void moveNaipeTemp() {
         system("cls");
         printf("Posicao invalida ou vazia, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
 
     atual = primNaipe[naipeEsc];
@@ -450,9 +442,8 @@ void moveNaipeTemp() {
             if(dispo[i]==1){
                 pos = i;
                 i++;
-            }else{
-                i++;
-            }
+            }else
+                i++;  
         }
         if(pos!=4){
             temp[pos] = atual;
@@ -483,7 +474,7 @@ void moveNaipeMesa() {
         system("cls");
         printf("Posicao invalida ou vazia, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
 
     printf("Escolha uma mesa: ");
@@ -492,7 +483,7 @@ void moveNaipeMesa() {
         system("cls");
         printf("Posicao invalida ou vazia, tente novamente.\n");
         system("pause");
-        return 0;
+        return;
     }
 
     atual = primNaipe[naipeEsc];
@@ -546,25 +537,26 @@ void moveMesaMesa() {
         system("cls");
         printf("Mesa Invalida, escolha de 0 a 7!\n");
         system("pause");
-        return 0;
+        return;
     }else if(primMesa[mesaOrigem]==NULL){
         system("cls");
         printf("Mesa vazia, jogue novamente!\n");
         system("pause");
-        return 0;
+        return;
     }else if (qCartas>qMesa[mesaOrigem]){
         system("cls");
         printf("Bloco de cartas maior que a quantidade de cartas na mesa, jogue novamente!\n");
         system("pause");
-        return 0;
+        return;
     }
+    
     printf("Mesa de destino: ");
     scanf("%d", &mesaDest);
     if(mesaDest<0 || mesaDest>7){
         system("cls");
         printf("Mesa Invalida, escolha de 0 a 7!\n");
         system("pause");
-        return 0;
+        return;
     }
 
     atual = primMesa[mesaOrigem];
@@ -614,6 +606,30 @@ void moveMesaMesa() {
     }
 }
 
+void destroy(){
+    tCarta *apaga, *aux;
+
+    for(int i = 0; i < 8; i++){
+        apaga = primMesa[i];
+        aux = apaga->prox;
+        if(i<4){
+            for(int j = 0; j < 7; j++){
+                free(apaga);
+                apaga = aux;
+                if(aux->prox!=NULL)
+                    aux = aux->prox;
+            }
+        }else if(i>=4){
+            for(int k = 0; k < 6; k++){
+                free(apaga);
+                apaga = aux;
+                if(aux->prox!=NULL)
+                    aux = aux->prox;
+            }
+        }
+    }
+}
+
 int main(){
     int op=0;
     srand(time(NULL));
@@ -624,57 +640,61 @@ int main(){
     distribuiMesa();
 
     while(op!=8){
+
         imprime();
-        printf("(1)Mesa-Temporario\n");
-        printf("(2)Temporario-Mesa\n");
-        printf("(3)Mesa-Naipe\n");
-        printf("(4)Temporario-Naipe\n");
-        printf("(5)Naipe-Temporario\n");
-        printf("(6)Naipe-Mesa\n");
-        printf("(7)Mesa-Mesa\n");
-        printf("(8)Sair\n");
+        printf("\n(1) Mesa-Temporario\n");
+        printf("(2) Temporario-Mesa\n");
+        printf("(3) Mesa-Naipe\n");
+        printf("(4) Temporario-Naipe\n");
+        printf("(5) Naipe-Temporario\n");
+        printf("(6) Naipe-Mesa\n");
+        printf("(7) Mesa-Mesa\n");
+        printf("(8) Sair\n");
         bold(1);
         printf("Escolha uma opcao de jogada: ");
         bold(0);
+
         scanf("%d", &op);
         switch (op){
-        case 1:
-            moveMesaTemp();
-            system("cls");
-            break;
-        case 2:
-            moveTempMesa();
-            system("cls");
-            break;
-        case 3:
-            moveMesaNaipe();
-            system("cls");
-            break;
-        case 4:
-            moveTempNaipe();
-            system("cls");
-            break;
-        case 5:
-            moveNaipeTemp();
-            system("cls");
-            break;
-        case 6:
-            moveNaipeMesa();
-            system("cls");
-            break;
-        case 7:
-            moveMesaMesa();
-            system("cls");
-            break;
-        case 8:
-            system("cls");
-            printf("Jogo finalizado pelo usuario.\n");
-            break;
-        default:
-            system("cls");
-            printf("Opcao invalida!\n");
-            system("pause");
-            break;
+            case 1:
+                moveMesaTemp();
+                system("cls");
+                break;
+            case 2:
+                moveTempMesa();
+                system("cls");
+                break;
+            case 3:
+                moveMesaNaipe();
+                system("cls");
+                break;
+            case 4:
+                moveTempNaipe();
+                system("cls");
+                break;
+            case 5:
+                moveNaipeTemp();
+                system("cls");
+                break;
+            case 6:
+                moveNaipeMesa();
+                system("cls");
+                break;
+            case 7:
+                moveMesaMesa();
+                system("cls");
+                break;
+            case 8:
+                destroy();
+                system("cls");
+                printf("Jogo finalizado pelo usuario.\n");
+                break;
+            default:
+                system("cls");
+                printf("Opcao invalida!\n");
+                system("pause");
+                break;
         }
     }
+    return 0;
 }
